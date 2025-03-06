@@ -1,6 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using MvcNetCorePaginacionRegistros.Data;
 using MvcNetCorePaginacionRegistros.Models;
+
+#region
+//CREATE VIEW V_DEPARTAMENTOS_INDIVIDUAL
+//AS
+//SELECT CAST(
+//ROW_NUMBER() OVER (ORDER BY DEPT_NO)AS INT) AS POSICION, DEPT_NO, DNOMBRE, LOC FROM DEPT
+//GO
+#endregion
 
 namespace MvcNetCorePaginacionRegistros.Repositories
 {
@@ -29,6 +38,17 @@ namespace MvcNetCorePaginacionRegistros.Repositories
             {
                 return await empleados.ToListAsync();
             }
+        }
+
+        public async Task<int> GetNumeroRegistrosVistaDepartamentosAsync()
+        {
+            return await this.context.VistaDepartamentos.CountAsync();
+        }
+
+        public async Task<VistaDepartamento> GetVistaDepartamentoAsync(int posicion)
+        {
+            VistaDepartamento departamento = await this.context.VistaDepartamentos.Where(z => z.Posicion == posicion).FirstOrDefaultAsync();
+            return departamento;
         }
     }
 }
