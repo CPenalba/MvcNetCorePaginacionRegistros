@@ -4,11 +4,34 @@
     ViewData["Title"] = "PaginarGrupoVistaDepartamento";
 }
 
-<h1>Paginar Grupo VistaDepartamento</h1>
+@{
+    int numeroRegistros = (int)ViewData["REGISTROS"];
+    int numeroPagina = 1;
+}
 
+<h1>Paginar Grupo VistaDepartamento</h1>
+@* 
 <hr/>
 @Html.Raw(@ViewData["LINKS"])
+<hr /> *@
+
 <hr />
+
+<ul class="list-group list-group-horizontal">
+    @for (int i = 1; i <= numeroRegistros; i += 2)
+    {
+        <li class="list-group-item list-group-item-danger">
+            <a asp-controller="Paginacion"
+               asp-action="PaginarGrupoVistaDepartamento"
+               asp-route-posicion="@i">
+                Página @numeroPagina
+            </a>
+        </li>
+        numeroPagina += 1;
+    }
+</ul>
+<hr />
+
 
 
 <table class="table table-warning">
