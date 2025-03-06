@@ -50,5 +50,16 @@ namespace MvcNetCorePaginacionRegistros.Repositories
             VistaDepartamento departamento = await this.context.VistaDepartamentos.Where(z => z.Posicion == posicion).FirstOrDefaultAsync();
             return departamento;
         }
+
+        public async Task<List<VistaDepartamento>> GetGrupoVistaDepartamentoAsync(int posicion)
+        {
+            //SELECT * FROM V_DEPARTAMENTOS_INDIVIDUAL
+            //WHERE POSICION >= 1 AMD POSICION < (1 + 2)
+            var consulta = from datos in this.context.VistaDepartamentos
+                           where datos.Posicion >= posicion
+                           && datos.Posicion < (posicion + 2)
+                           select datos;
+            return await consulta.ToListAsync();
+        }
     }
 }
